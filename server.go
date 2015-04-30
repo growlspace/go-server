@@ -27,8 +27,11 @@ func main() {
 
 	m.Map(setupDB())
 
-	m.Get("/v1/user/:username", GetUser)
+	m.Get("/v1/user/:id", GetUser)
+	// m.Post("/v1/user", AddUser)
 	m.Get("/v1/feed", GetFeed)
+	m.Get("/v1/item/:id", GetItem)
+	// m.Post("/v1/item", AddItem)
 
 	m.Run()
 }
