@@ -27,6 +27,7 @@ func main() {
 
 	m.Map(setupDB())
 
+	// needs auth or something I think
 	m.Get("/v1/user/:id", GetUser)
 	// m.Post("/v1/user", AddUser)
 	m.Get("/v1/feed", GetFeed)

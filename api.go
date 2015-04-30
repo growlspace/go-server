@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -25,12 +24,12 @@ func GetUser(params martini.Params, r *http.Request, db *sql.DB) string {
 		resultUser.Created = created.Unix()
 		resultUser.Updated = updated.Unix()
 	}
-	fmt.Println(resultUser)
+	// fmt.Println(resultUser)
 	response, err := json.Marshal(resultUser)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(response))
+	// fmt.Println(string(response))
 	return string(response)
 }
 
@@ -78,11 +77,9 @@ func GetItem(params martini.Params, r *http.Request, db *sql.DB) string {
 		p.Created = created.Unix()
 		p.Updated = updated.Unix()
 	}
-	fmt.Println(p)
 	response, err := json.Marshal(p)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(response))
 	return string(response)
 }
