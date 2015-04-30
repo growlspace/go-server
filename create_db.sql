@@ -1,6 +1,6 @@
 CREATE SEQUENCE user_id_seq;
 
-CREATE TABLE users (user_id int PRIMARY KEY DEFAULT nextval('user_id_seq'), username varchar(10), password text, real_name text, bio text, created_at timestamp, updated_at timestamp);
+CREATE TABLE users (user_id int PRIMARY KEY DEFAULT nextval('user_id_seq'), username varchar(10), password_hash text, password_salt text, real_name text, bio text, created_at timestamp, updated_at timestamp);
 
 CREATE SEQUENCE audio_id_seq;
 

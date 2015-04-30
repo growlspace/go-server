@@ -1,20 +1,29 @@
 package main
 
 import (
-	"github.com/codegangsta/martini"
-	"net/http"
-	"fmt"
-	"time"
 	"database/sql"
+	"fmt"
+	"net/http"
+	"time"
+
+	"github.com/codegangsta/martini"
 	_ "github.com/lib/pq"
 )
-func SetupDB() *sql.DB {
+
+// User a struct representing a user
+type User struct {
+	id                  int
+	username, name, bio string
+	created, updated    time.Time
+}
+
+func setupDB() *sql.DB {
 	db, err := sql.Open("postgres", "user=postgres password=passwordlol dbname=postgres sslmode=disable")
-	PanicIf(err)
+	panicIf(err)
 	return db
 }
 
-func PanicIf(err error) {
+func panicIf(err error) {
 	if err != nil {
 		panic(err)
 	}
@@ -23,20 +32,22 @@ func PanicIf(err error) {
 func main() {
 	m := martini.Classic()
 
-	m.Map(SetupDB())
+	m.Map(setupDB())
 
-	m.Get("/", func(rw http.ResponseWriter, r *http.Request, db *sql.DB) {
-		rows, err := db.Query("SELECT * FROM users")
-		PanicIf(err)
+	m.Get("/v1/user/:username", func(params martini.Params, rw http.ResponseWriter, r *http.Request, db *sql.DB) {
+		query := "SELECT user_id,username,real_name,bio FROM users WHERE username LIKE '" + params["username"] + "'"
+		rows, err := db.Query(query)
+		panicIf(err)
 		defer rows.Close()
-		var id, username, password, name, bio string
-		var created, updated time.Time
+		var id int
+		var username, name, bio string
 		for rows.Next() {
-			err := rows.Scan(&id, &username, &password, &name, &bio, &created, &updated)
-			PanicIf(err)
+			err := rows.Scan(&id, &username, &name, &bio)
+			panicIf(err)
 
-			fmt.Fprintf(rw, "ID: %s\nUser: %s\nPassword: %s\nName: %s\nBio: %s\nCreated: %s\nUpdated: %s\n", id, username, password, name, bio, created, updated)
+			fmt.Fprintf(rw, "ID: %d\nUser: %s\nName: %s\nBio: %s\n\n", id, username, name, bio)
 		}
+
 	})
 
 	m.Run()
