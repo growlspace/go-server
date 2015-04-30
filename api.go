@@ -45,8 +45,7 @@ func GetFeed(params martini.Params, r *http.Request, db *sql.DB) string {
 	panicIf(err)
 	defer rows.Close()
 
-	posts := make([]Post, 10)
-	i := 0
+	posts := make([]Post, 0, 10)
 	var created, updated time.Time
 	for rows.Next() {
 		var p Post
@@ -54,8 +53,7 @@ func GetFeed(params martini.Params, r *http.Request, db *sql.DB) string {
 		panicIf(err)
 		p.Created = created.Unix()
 		p.Updated = updated.Unix()
-		posts[i] = p
-		i++
+		posts = append(posts, p)
 	}
 
 	response, err := json.Marshal(posts)

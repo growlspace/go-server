@@ -20,4 +20,8 @@ INSERT INTO "users" (username, password_hash, password_salt, real_name, bio, cre
 
 INSERT INTO "audio" (audio_filename, created_at, updated_at) VALUES ('this_is_a_file.3gp', current_timestamp, current_timestamp);
 
+INSERT INTO "audio" (audio_filename, created_at, updated_at) VALUES ('this_is_another_file.3gp', current_timestamp, current_timestamp);
+
 INSERT INTO "posts" (user_id, caption, audio_id, created_at, updated_at) VALUES (1, 'ay girl', 1, current_timestamp, current_timestamp);
+
+INSERT INTO "posts" (user_id, caption, audio_id, created_at, updated_at) VALUES (2, 'ay girl', 2, current_timestamp, current_timestamp);
