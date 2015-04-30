@@ -31,9 +31,9 @@ func GetUser(params martini.Params, r *http.Request, db *sql.DB) string {
 // GetFeed gets a slice of feed items (up to 10) optionally older than an ID supplied as a query param
 func GetFeed(params martini.Params, r *http.Request, db *sql.DB) string {
 	lastID := r.URL.Query().Get("last_id")
-	sqlQuery := "SELECT caption FROM posts ORDER BY post_id DESC LIMIT 10"
+	sqlQuery := "SELECT post_id, caption FROM posts ORDER BY post_id DESC LIMIT 10"
 	if lastID != "" {
-		sqlQuery = "SELECT caption FROM posts WHERE post_id - " + lastID + " > ORDER BY post_id DESC LIMIT 10"
+		sqlQuery = "SELECT post_id, caption FROM posts WHERE post_id - " + lastID + " > ORDER BY post_id DESC LIMIT 10"
 	}
 	rows, err := db.Query(sqlQuery)
 	panicIf(err)
