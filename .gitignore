@@ -1,0 +1,2 @@
+# export all your secrets as constants from here
+secrets.go
